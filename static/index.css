@@ -41,3 +41,10 @@ ul li a {
     font-size: 3em;
     text-shadow: 2px 2px rgba(51, 51, 51, 0.5);
 }
+
+ul li a:hover {
+    transition: font-size 0.2s ease;
+    transition: color 0.2s ease;
+    font-size: 3.4em;
+    color: rgba(230, 230, 230, 1);
+}
