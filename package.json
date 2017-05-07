@@ -1,5 +1,5 @@
 {
-  "name": "redirect-to-jjnet",
+  "name": "mikecroallme",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 0",
     "start": "node index.js"
   },
-  "author": "",
+  "author": "Mike Croall",
   "license": "ISC",
   "dependencies": {
     "express": "^4.15.2"
