@@ -1,8 +1,15 @@
 var express = require("express");
 var app = express();
 
-app.get("/", function(req, res) {
-    res.redirect("http://johnjennings.net");
+app.use("/", express.static("static"));
+
+// app.get("/", function(req, res) {
+    // res.redirect("http://johnjennings.net");
+// });
+
+// 404 route - redirect home
+app.get("*", function(req, res) {
+    res.redirect("/");
 });
 
 const portNumber = process.env.PORT || 8080;
