@@ -19,9 +19,15 @@ body {
     background-size: 100%;
 }
 
-@media screen and (min-width: 2000px) {
+@media (min-width: 2000px) {
     body {
         background-image: url("overview.jpg");
+    }
+}
+
+@media (orientation: portrait) {
+    body {
+        background-size: auto 100%;
     }
 }
 
