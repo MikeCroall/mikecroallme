@@ -1,11 +1,11 @@
 {
   "name": "mikecroallme",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Personal website",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 0",
-    "start": "node index.js"
+    "test": "echo \"No tests specified\" && exit 0",
+    "start": "node server.js"
   },
   "author": "Mike Croall",
   "license": "ISC",

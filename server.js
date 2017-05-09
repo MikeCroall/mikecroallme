@@ -3,10 +3,6 @@ var app = express();
 
 app.use("/", express.static("static"));
 
-// app.get("/", function(req, res) {
-    // res.redirect("http://johnjennings.net");
-// });
-
 // 404 route - redirect home
 app.get("*", function(req, res) {
     res.redirect("/");

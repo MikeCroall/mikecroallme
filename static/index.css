@@ -17,7 +17,8 @@ body {
     /*background-image: url("overview-1920x1280.jpg");*/
     background-image: url("overview-progressive.jpg");
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: 110%;
+    background-position: 50% 50%;
 }
 /*
 @media (min-width: 2000px) {
@@ -34,19 +35,30 @@ body {
 }
 
 ul {
+    border: 5px solid rgba(220, 220, 220, 0.8);
+    padding: 20px;
     list-style: none;
+    background-color: rgba(51, 51, 51, 0.5);
 }
 
 ul li a {
-    color: rgba(200, 200, 200, 1);
+    color: rgba(220, 220, 220, 0.8);
     text-decoration: none;
-    font-size: 3em;
-    text-shadow: 2px 2px rgba(51, 51, 51, 0.5);
+    font-size: 4em;
+    text-shadow: 5px 5px rgba(51, 51, 51, 0.5);
 }
+
 
 ul li a:hover {
     transition: font-size 0.2s ease;
     transition: color 0.2s ease;
-    font-size: 3.4em;
     color: rgba(230, 230, 230, 1);
+}
+
+#wrapDynamicBackgroundChk {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    color: rgba(255, 255, 255, 1);
+    text-shadow: 2px 2px rgba(51, 51, 51, 0.5);
 }
