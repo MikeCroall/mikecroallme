@@ -14,16 +14,18 @@ html, body {
 }
 
 body {
-    background-image: url("overview-1920x1280.jpg");
+    /*background-image: url("overview-1920x1280.jpg");*/
+    background-image: url("overview-progressive.jpg");
     background-repeat: no-repeat;
     background-size: 100%;
 }
-
+/*
 @media (min-width: 2000px) {
     body {
         background-image: url("overview.jpg");
     }
 }
+*/
 
 @media (orientation: portrait) {
     body {
