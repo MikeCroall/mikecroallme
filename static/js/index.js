@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var movingBackground = false;
+    var movingBackground = $("#chkBackground").prop("checked");
 
     $("#chkBackground").change(function() {
         movingBackground = this.checked;
