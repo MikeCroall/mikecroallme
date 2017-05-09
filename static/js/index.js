@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var movingBackground = true;
+    var movingBackground = false;
 
     $("#chkBackground").change(function() {
         movingBackground = this.checked;
