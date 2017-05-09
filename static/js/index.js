@@ -10,10 +10,10 @@ $(document).ready(function() {
         var xDiff = targetX - currentX;
         var yDiff = targetY - currentY;
 
-        if (xDiff > 0.5 || xDiff < -0.5) {
+        if (xDiff > 0.2 || xDiff < -0.2) {
             currentX += 0.1 * xDiff;
         }
-        if (yDiff > 0.5 || yDiff < -0.5) {
+        if (yDiff > 0.2 || yDiff < -0.2) {
             currentY += 0.1 * yDiff;
         }
 
