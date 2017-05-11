@@ -11,6 +11,21 @@ app.use(compression());
 // Serve static files
 app.use("/", express.static("static"));
 
+// LinkedIn redirect
+app.get("/linkedin", function(req, res) {
+    res.redirect("https://www.linkedin.com/in/mike-croall/");
+});
+
+// GitHub redirect
+app.get("/github", function(req, res) {
+    res.redirect("https://www.github.com/MikeCroall");
+});
+
+//Flickr redirect
+app.get("/flickr", function(req, res) {
+    res.redirect("https://www.flickr.com/photos/mcroall");
+});
+
 // 404 route - redirect home
 app.get("*", function(req, res) {
     res.redirect("/");
