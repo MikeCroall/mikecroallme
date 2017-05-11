@@ -12,5 +12,9 @@
   "dependencies": {
     "compression": "^1.6.2",
     "express": "^4.15.2"
+  },
+  "engines": {
+    "node": "7.1.0",
+    "npm": "3.10.9"
   }
 }
