@@ -21,7 +21,11 @@ const dburi = "mongodb://" + dbuser + ":" + dbpass + "@ds137121.mlab.com:37121/m
 var db;
 mongoClient.connect(dburi, function(err, database_object) {
     if (err) {
-        console.log("Failed to connect to database\n", err);
+        if (err.code == 18) {
+            console.log("Could not connect to mlab from localhost");
+        } else {
+            console.log("Failed to connect to database\n", err);
+        }
     } else {
         db = database_object;
     }
