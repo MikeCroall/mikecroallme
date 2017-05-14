@@ -10,10 +10,10 @@ var app = express();
 var mongoClient = mongodb.MongoClient;
 const dbuser = process.env.dbuser;
 const dbpass = process.env.dbpass;
-const db_uri = "mongodb://" + dbuser + ":" + dbpass + "@ds137121.mlab.com:37121/mikecroallmestats";
+const dburi = "mongodb://" + dbuser + ":" + dbpass + "@ds137121.mlab.com:37121/mikecroallmestats";
 var objectID = mongodb.ObjectID;
 var db;
-mongoClient.connect(db_URI, function(err, database_object) {
+mongoClient.connect(dburi, function(err, database_object) {
     if (err) {
         console.log("Failed to connect to database\n", err);
     } else {
@@ -41,7 +41,7 @@ app.get("/github", function(req, res) {
         if(err) {
             console.log("Loading stats failed", err);
         } else {
-            console.log(document);
+            console.log("GOT STATS DOC", document);
             // TODO increment document
             db.collection("stats").save(document, function(err, results) {
                 if (err) {
