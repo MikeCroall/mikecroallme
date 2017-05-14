@@ -1,17 +1,22 @@
 // Load modules
-var compression = require("compression");
 var express = require("express");
+var compression = require("compression");
 var mongodb = require("mongodb");
+var path = require("path");
+var favicon = require("serve-favicon");
 
 // Create server
 var app = express();
-
-// Setup database variables
 var mongoClient = mongodb.MongoClient;
+var objectID = mongodb.ObjectID;
+
+// Get current directory differently if local or on heroku
+const currentDirectory = (process.env.PORT) ? process.cwd() : __dirname;
+
+// Setup database consts
 const dbuser = process.env.dbuser;
 const dbpass = process.env.dbpass;
 const dburi = "mongodb://" + dbuser + ":" + dbpass + "@ds137121.mlab.com:37121/mikecroallmestats";
-var objectID = mongodb.ObjectID;
 
 // Connect to database and save connection
 var db;
@@ -51,6 +56,9 @@ function incrementStatByOne(linkName) {
 
 // Enable compression for smaller network transfer
 app.use(compression());
+
+// Enable custom favicon
+app.use(favicon(path.join(currentDirectory, "static", "favicon.ico")));
 
 // Serve static files
 app.use("/", express.static("static"));
