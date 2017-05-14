@@ -5,10 +5,9 @@ var mongodb = require("mongodb");
 var path = require("path");
 var favicon = require("serve-favicon");
 
-// Create server
+// Create objects from requirements
 var app = express();
 var mongoClient = mongodb.MongoClient;
-var objectID = mongodb.ObjectID;
 
 // Get current directory differently if local or on heroku
 const currentDirectory = (process.env.PORT) ? process.cwd() : __dirname;
