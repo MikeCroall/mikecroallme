@@ -11,7 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "compression": "^1.6.2",
-    "express": "^4.15.2"
+    "express": "^4.15.2",
+    "mongodb": "^2.2.26"
   },
   "engines": {
     "node": "7.1.0",
