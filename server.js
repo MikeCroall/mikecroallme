@@ -1,9 +1,25 @@
 // Load modules
 var compression = require("compression");
 var express = require("express");
+var mongodb = require("mongodb");
 
 // Create server
 var app = express();
+
+// Connect to database
+var mongoClient = mongodb.MongoClient;
+const dbuser = process.env.dbuser;
+const dbpass = process.env.dbpass;
+const db_uri = "mongodb://" + dbuser + ":" + dbpass + "@ds137121.mlab.com:37121/mikecroallmestats";
+var objectID = mongodb.ObjectID;
+var db;
+MongoClient.connect(db_URI, function(err, database_object) {
+    if (err) {
+        console.log("Failed to connect to database\n", err);
+    } else {
+        db = database_object;
+    }
+});
 
 // Enable compression for smaller network transfer
 app.use(compression());
@@ -18,6 +34,23 @@ app.get("/linkedin", function(req, res) {
 
 // GitHub redirect
 app.get("/github", function(req, res) {
+
+    db.collection("stats").findOne({
+        type: "main"
+    }, function(err, document) {
+        if(err) {
+            console.log("Loading stats failed", err);
+        } else {
+            console.log(document);
+            // TODO increment document
+            db.collection("stats").save(document, function(err, results) {
+                if (err) {
+                    console.log("Saving stats failed", err);
+                }
+            });
+        }
+    });
+
     res.redirect("https://www.github.com/MikeCroall");
 });
 
