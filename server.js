@@ -13,7 +13,7 @@ const dbpass = process.env.dbpass;
 const db_uri = "mongodb://" + dbuser + ":" + dbpass + "@ds137121.mlab.com:37121/mikecroallmestats";
 var objectID = mongodb.ObjectID;
 var db;
-MongoClient.connect(db_URI, function(err, database_object) {
+mongoClient.connect(db_URI, function(err, database_object) {
     if (err) {
         console.log("Failed to connect to database\n", err);
     } else {
