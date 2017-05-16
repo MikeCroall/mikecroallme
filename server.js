@@ -38,14 +38,14 @@ mongoClient.connect(dburi, function(err, database_object) {
 
 // Stats increment
 function incrementStatByOne(linkName) {
-    if(db) {
+    if (db) {
         db.collection("stats").findOne({
             type: "main"
         }, function(err, document) {
-            if(err) {
+            if (err) {
                 console.log("Loading stats failed", err);
             } else {
-                if(document[linkName]) {
+                if (document[linkName]) {
                     document[linkName] += 1;
                 } else {
                     document[linkName] = 1;
@@ -98,11 +98,11 @@ app.get("/stats", function(req, res) {
         res.setHeader("WWW-Authenticate", 'Basic realm="MikeCroallMeStats"');
         res.end("Access denied");
     } else {
-        if(db) {
+        if (db) {
             db.collection("stats").findOne({
                 type: "main"
             }, function(err, document) {
-                if(err) {
+                if (err) {
                     console.log("Loading stats for admin failed", err);
                     res.redirect("/");
                 } else {
