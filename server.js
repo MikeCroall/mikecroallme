@@ -14,7 +14,7 @@ var mongoClient = mongodb.MongoClient;
 // Get current directory differently if local or on heroku
 const currentDirectory = (process.env.PORT) ? process.cwd() : __dirname;
 
-// Setup admin auth
+// Setup admin auth for stats
 const adminuser = process.env.adminuser;
 const adminpass = process.env.adminpass;
 
