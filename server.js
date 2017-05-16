@@ -4,6 +4,7 @@ var compression = require("compression");
 var mongodb = require("mongodb");
 var path = require("path");
 var favicon = require("serve-favicon");
+var auth = require("basic-auth");
 
 // Create objects from requirements
 var app = express();
@@ -11,6 +12,10 @@ var mongoClient = mongodb.MongoClient;
 
 // Get current directory differently if local or on heroku
 const currentDirectory = (process.env.PORT) ? process.cwd() : __dirname;
+
+// Setup admin auth
+const adminuser = process.env.adminuser;
+const adminpass = process.env.adminpass;
 
 // Setup database consts
 const dbuser = process.env.dbuser;
@@ -82,6 +87,31 @@ app.get("/github", function(req, res) {
 app.get("/flickr", function(req, res) {
     incrementStatByOne("flickrClicks");
     res.redirect("https://www.flickr.com/photos/mcroall");
+});
+
+// Admin route
+app.get("/admin", function(req, res) {
+    var credentials = auth(req);
+
+    if (!adminuser || !adminpass || !credentials || credentials.name !== adminuser || credentials.pass !== adminuser) {
+        res.redirect("/");
+    } else {
+        if(db) {
+            db.collection("stats").findOne({
+                type: "main"
+            }, function(err, document) {
+                if(err) {
+                    console.log("Loading stats for admin failed", err);
+                    res.redirect("/");
+                } else {
+                    res.setHeader("Content-Type", "application/json");
+                    res.send(JSON.stringify(document));
+                }
+            });
+        } else {
+            res.redirect("/");
+        }
+    }
 });
 
 // 404 route - redirect home
