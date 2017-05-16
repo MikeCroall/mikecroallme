@@ -90,12 +90,12 @@ app.get("/flickr", function(req, res) {
 });
 
 // Admin route
-app.get("/admin", function(req, res) {
+app.get("/stats", function(req, res) {
     var credentials = auth(req);
 
     if (!adminuser || !adminpass || !credentials || credentials.name !== adminuser || credentials.pass !== adminpass) {
         res.statusCode = 401;
-        res.setHeader("WWW-Authenticate", 'Basic realm="MikeCroallMeAdmin"');
+        res.setHeader("WWW-Authenticate", 'Basic realm="MikeCroallMeStats"');
         res.end("Access denied");
     } else {
         if(db) {
