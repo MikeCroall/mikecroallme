@@ -94,6 +94,12 @@ app.get("/admin", function(req, res) {
     var credentials = auth(req);
 
     if (!adminuser || !adminpass || !credentials || credentials.name !== adminuser || credentials.pass !== adminuser) {
+        if(!adminuser || !adminpass) {
+            console.log("process.env.adminuser or adminpass didn't exist");
+        }
+        if(!credentials) {
+            console.log("credentials didn't exist");
+        }
         res.redirect("/");
     } else {
         if(db) {
