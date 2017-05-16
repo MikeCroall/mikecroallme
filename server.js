@@ -16,6 +16,7 @@ const currentDirectory = (process.env.PORT) ? process.cwd() : __dirname;
 // Setup admin auth
 const adminuser = process.env.adminuser;
 const adminpass = process.env.adminpass;
+console.log(adminuser, adminpass);
 
 // Setup database consts
 const dbuser = process.env.dbuser;
