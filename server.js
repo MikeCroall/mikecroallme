@@ -5,6 +5,7 @@ var mongodb = require("mongodb");
 var path = require("path");
 var favicon = require("serve-favicon");
 var auth = require("basic-auth");
+var exphbs = require("express-handlebars");
 
 // Create objects from requirements
 var app = express();
@@ -62,6 +63,12 @@ function incrementStatByOne(linkName) {
     }
 }
 
+// Set up rendering for stats page
+app.engine('handlebars', exphbs({
+    defaultLayout: 'main'
+}));
+app.set('view engine', 'handlebars');
+
 // Enable compression for smaller network transfer
 app.use(compression());
 
@@ -106,8 +113,10 @@ app.get("/stats", function(req, res) {
                     console.log("Loading stats for admin failed", err);
                     res.redirect("/");
                 } else {
-                    res.setHeader("Content-Type", "application/json");
-                    res.send(JSON.stringify(document));
+                    res.render("stats", {
+                        layout: false,
+                        doc: document
+                    });
                 }
             });
         } else {
