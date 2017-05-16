@@ -16,7 +16,6 @@ const currentDirectory = (process.env.PORT) ? process.cwd() : __dirname;
 // Setup admin auth
 const adminuser = process.env.adminuser;
 const adminpass = process.env.adminpass;
-console.log(adminuser, adminpass);
 
 // Setup database consts
 const dbuser = process.env.dbuser;
@@ -94,7 +93,7 @@ app.get("/flickr", function(req, res) {
 app.get("/admin", function(req, res) {
     var credentials = auth(req);
 
-    if (!adminuser || !adminpass || !credentials || credentials.name !== adminuser || credentials.pass !== adminuser) {
+    if (!adminuser || !adminpass || !credentials || credentials.name !== adminuser || credentials.pass !== adminpass) {
         res.statusCode = 401;
         res.setHeader("WWW-Authenticate", 'Basic realm="MikeCroallMeAdmin"');
         res.end("Access denied");
