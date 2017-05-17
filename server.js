@@ -104,24 +104,22 @@ app.get("/stats", function(req, res) {
         res.statusCode = 401;
         res.setHeader("WWW-Authenticate", 'Basic realm="MikeCroallMeStats"');
         res.end("Access denied");
+    } else if (db) {
+        db.collection("stats").findOne({
+            type: "main"
+        }, function(err, document) {
+            if (err) {
+                console.log("Loading stats for admin failed", err);
+                res.redirect("/");
+            } else {
+                res.render("stats", {
+                    layout: false,
+                    doc: document
+                });
+            }
+        });
     } else {
-        if (db) {
-            db.collection("stats").findOne({
-                type: "main"
-            }, function(err, document) {
-                if (err) {
-                    console.log("Loading stats for admin failed", err);
-                    res.redirect("/");
-                } else {
-                    res.render("stats", {
-                        layout: false,
-                        doc: document
-                    });
-                }
-            });
-        } else {
-            res.redirect("/");
-        }
+        res.redirect("/");
     }
 });
 
