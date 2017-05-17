@@ -1,5 +1,12 @@
 $(document).ready(function() {
-    var movingBackground = $("#chkBackground").prop("checked");
+    var movingBackground;
+    if(localStorage && localStorage.hasOwnProperty("useDynamicBackground")) {
+        movingBackground = localStorage.useDynamicBackground == "false" ? false : true;
+        $("#chkBackground").prop("checked", movingBackground);
+        console.log("Document loaded with setting", movingBackground);
+    } else {
+        movingBackground = $("#chkBackground").prop("checked");
+    }
 
     var targetX = 50;
     var targetY = 50;
@@ -30,6 +37,11 @@ $(document).ready(function() {
 
     $("#chkBackground").change(function() {
         movingBackground = this.checked;
+
+        if (localStorage) {
+            localStorage.useDynamicBackground = movingBackground;
+        }
+
         if (this.checked) {
             window.requestAnimationFrame(approachTarget);
         } else {

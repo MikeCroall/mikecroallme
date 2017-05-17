@@ -3,7 +3,10 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Mike Croall Stats</title>
+    <meta name="description" content="All about Mike Croall." />
+    <title>About Mike Croall</title>
+    <script defer type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script defer type="text/javascript" src="js/index.js"></script>
     <style rel="stylesheet" type="text/css">
         html,
         body {
@@ -17,7 +20,7 @@
             font-family: Verdana;
         }
 
-        .mainWrap{
+        .mainWrap {
             margin: 0;
             width: 100%;
             height: calc(100% - 50px);
@@ -26,24 +29,45 @@
             align-items: center;
         }
 
-        .socialLinks {
-            text-align: left;
-            border: 5px solid rgba(220, 220, 220, 0.8);
-            padding: 20px;
-            list-style: none;
-            background-color: rgba(51, 51, 51, 0.5);
+        .emphasise {
+            font-size: 1.1em;
+            color: rgba(255, 255, 255, 0.9);
         }
 
-        .socialLinks li {
-            color: rgba(220, 220, 220, 0.8);
+        body {
+            background-image: url("images/{{backgroundImage}}");
+            background-repeat: no-repeat;
+            background-size: 110%;
+            background-position: 50% 50%;
+        }
+
+        @media (orientation: portrait) {
+            body {
+                background-size: auto 100%;
+            }
+        }
+
+        p {
+            border: 5px solid rgba(220, 220, 220, 0.8);
+            padding: 20px;
+            background-color: rgba(51, 51, 51, 0.6);
+            color: rgba(220, 220, 220, 0.9);
             text-decoration: none;
-            font-size: 4em;
+            font-size: 2em;
             text-shadow: 5px 5px rgba(51, 51, 51, 0.5);
         }
 
-        .clickCount {
-            display: inline;
-            color: white;
+        .img-circle {
+            border-radius: 50%;
+            border: 5px solid rgba(220, 220, 220, 0.8);
+        }
+
+        #wrapDynamicBackgroundChk {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            color: rgba(255, 255, 255, 1);
+            text-shadow: 2px 2px rgba(51, 51, 51, 0.5);
         }
 
         .nav ul {
@@ -158,29 +182,21 @@
     <div class="nav">
         <ul>
             <li class="home"><a href="/">Home</a></li>
-            <li class="about"><a href="/about">About</a></li>
-            <li class="about"><a class="active" href="#">Stats</a></li>
+            <li class="about"><a class="active" href="#">About</a></li>
         </ul>
     </div>
     <div class="mainWrap">
-        <ul class="socialLinks">
-            <li>
-                <span class="icon-envelop"></span>
-                <div class="clickCount">Not tracking</div>
-            </li>
-            <li>
-                <span class="icon-linkedin"></span>
-                <div class="clickCount">{{doc.linkedinClicks}} clicks</div>
-            </li>
-            <li>
-                <span class="icon-github"></span>
-                <div class="clickCount">{{doc.githubClicks}} clicks</div>
-            </li>
-            <li>
-                <span class="icon-flickr3"></span>
-                <div class="clickCount">{{doc.flickrClicks}} clicks</div>
-            </li>
-        </ul>
+        <div id="imageAndTextWrap">
+            <img class="img-circle" src="images/{{mike.imageToShow}}" />
+            <p>
+                My name is <span class="emphasise">Mike</span>, and I'm <span class="emphasise">{{ mike.ageInYears }}</span> years old.
+                <br> My two big passions are <span class="emphasise">Programming</span> and <span class="emphasise">Photography</span>.
+                <br> I am currently studying <span class="emphasise">Computer Science</span> at the <span class="emphasise">University of Durham</span>, UK.
+            </p>
+        </div>
+        <div id="wrapDynamicBackgroundChk">
+            <input type="checkbox" checked id="chkBackground">Dynamic background</input>
+        </div>
     </div>
 </body>
 

@@ -7,6 +7,9 @@ var favicon = require("serve-favicon");
 var auth = require("basic-auth");
 var exphbs = require("express-handlebars");
 
+// Options
+const globalBackgroundImage = "overview-prog-small.jpg";
+
 // Create objects from requirements
 var app = express();
 var mongoClient = mongodb.MongoClient;
@@ -77,6 +80,26 @@ app.use(favicon(path.join(currentDirectory, "static", "favicon.ico")));
 
 // Serve static files
 app.use("/", express.static("static"));
+
+// Home page
+app.get("/", function(req, res) {
+    res.render("index", {
+        layout: false,
+        backgroundImage: globalBackgroundImage
+    });
+});
+
+// About page
+app.get("/about", function(req, res) {
+    res.render("about", {
+        layout: false,
+        mike: {
+            ageInYears: ((new Date() - new Date(1997,4,8)) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(0),
+            imageToShow: "me1.jpg",
+        },
+        backgroundImage: globalBackgroundImage
+    });
+});
 
 // LinkedIn redirect
 app.get("/linkedin", function(req, res) {
