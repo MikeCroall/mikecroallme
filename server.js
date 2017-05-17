@@ -43,23 +43,12 @@ mongoClient.connect(dburi, function(err, database_object) {
 // Stats increment
 function incrementStatByOne(linkName) {
     if (db) {
-        db.collection("stats").findOne({
+        var updateField = {};
+        updateField[linkName] = 1;
+        db.collection("stats").update({
             type: "main"
-        }, function(err, document) {
-            if (err) {
-                console.log("Loading stats failed", err);
-            } else {
-                if (document[linkName]) {
-                    document[linkName] += 1;
-                } else {
-                    document[linkName] = 1;
-                }
-                db.collection("stats").save(document, function(err, results) {
-                    if (err) {
-                        console.log("Saving stats failed", err);
-                    }
-                });
-            }
+        }, {
+            $inc: updateField
         });
     } else {
         console.log("No database connection, stats not updated");
