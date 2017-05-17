@@ -6,7 +6,10 @@
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 <url>
   <loc>http://mikecroall.me/</loc>
-  <lastmod>2017-05-09T20:39:50+00:00</lastmod>
-  <changefreq>weekly</changefreq>
+  <changefreq>monthly</changefreq>
+</url>
+<url>
+  <loc>http://mikecroall.me/about</loc>
+  <changefreq>monthly</changefreq>
 </url>
 </urlset>
