@@ -72,6 +72,7 @@ app.use("/", express.static("static"));
 
 // Home page
 app.get("/", function(req, res) {
+    incrementStatByOne("homeVisits");
     res.render("index", {
         layout: false,
         backgroundImage: globalBackgroundImage
@@ -80,10 +81,11 @@ app.get("/", function(req, res) {
 
 // About page
 app.get("/about", function(req, res) {
+    incrementStatByOne("aboutVisits");
     res.render("about", {
         layout: false,
         mike: {
-            ageInYears: ((new Date() - new Date(1997,4,8)) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(0),
+            ageInYears: ((new Date() - new Date(1997, 4, 8)) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(0),
             imageToShow: "me1.jpg",
         },
         backgroundImage: globalBackgroundImage
@@ -112,6 +114,23 @@ app.get("/flickr", function(req, res) {
 app.get("/stats", function(req, res) {
     var credentials = auth(req);
 
+    // Placeholder stats page if not on heroku
+    // if (!process.env.PORT) {
+    //     res.render("stats", {
+    //         layout: false,
+            // doc: {
+            //     "type": "main",
+            //     "githubClicks": 0,
+            //     "linkedinClicks": 0,
+            //     "flickrClicks": 0,
+            //     "homeVisits": 0,
+            //     "aboutVisits": 0,
+            //     "requests404": 0
+            // }
+    //     });
+    //     return;
+    // }
+
     if (!adminuser || !adminpass || !credentials || credentials.name !== adminuser || credentials.pass !== adminpass) {
         res.statusCode = 401;
         res.setHeader("WWW-Authenticate", 'Basic realm="MikeCroallMeStats"');
@@ -137,6 +156,7 @@ app.get("/stats", function(req, res) {
 
 // 404 route - redirect home
 app.get("*", function(req, res) {
+    incrementStatByOne("requests404");
     res.redirect("/");
 });
 

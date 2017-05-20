@@ -17,7 +17,7 @@
             font-family: Verdana;
         }
 
-        .mainWrap{
+        .mainWrap {
             margin: 0;
             width: 100%;
             height: calc(100% - 50px);
@@ -48,7 +48,7 @@
 
         .nav ul {
             list-style: none;
-            background-color: rgba(68,68,68,0.5);
+            background-color: rgba(68, 68, 68, 0.5);
             text-align: center;
             padding: 0;
             margin: 0;
@@ -163,24 +163,37 @@
         </ul>
     </div>
     <div class="mainWrap">
-        <ul class="socialLinks">
-            <li>
-                <span class="icon-envelop"></span>
-                <div class="clickCount">Not tracking</div>
-            </li>
-            <li>
-                <span class="icon-linkedin"></span>
-                <div class="clickCount">{{doc.linkedinClicks}} clicks</div>
-            </li>
-            <li>
-                <span class="icon-github"></span>
-                <div class="clickCount">{{doc.githubClicks}} clicks</div>
-            </li>
-            <li>
-                <span class="icon-flickr3"></span>
-                <div class="clickCount">{{doc.flickrClicks}} clicks</div>
-            </li>
-        </ul>
+        <div class="innerWrap">
+            <ul class="socialLinks">
+                <li>
+                    <span class="icon-envelop"></span>
+                    <div class="clickCount">Not tracking</div>
+                </li>
+                <li>
+                    <span class="icon-linkedin"></span>
+                    <div class="clickCount">{{doc.linkedinClicks}} clicks</div>
+                </li>
+                <li>
+                    <span class="icon-github"></span>
+                    <div class="clickCount">{{doc.githubClicks}} clicks</div>
+                </li>
+                <li>
+                    <span class="icon-flickr3"></span>
+                    <div class="clickCount">{{doc.flickrClicks}} clicks</div>
+                </li>
+            </ul>
+            <ul class="socialLinks">
+                <li>
+                    <div class="clickCount">{{doc.homeVisits}} home visits</div>
+                </li>
+                <li>
+                    <div class="clickCount">{{doc.aboutVisits}} about visits</div>
+                </li>
+                <li>
+                    <div class="clickCount">{{doc.requests404}} 404s</div>
+                </li>
+            </ul>
+        </div>
     </div>
 </body>
 
