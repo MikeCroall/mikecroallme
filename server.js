@@ -41,10 +41,13 @@ mongoClient.connect(dburi, function(err, database_object) {
 });
 
 // Stats increment
-function incrementStatByOne(linkName) {
+function incrementStatByOne(linkName, value) {
+    if (!value) {
+        value = 1;
+    }
     if (db) {
         var updateField = {};
-        updateField[linkName] = 1;
+        updateField[linkName] = value;
         db.collection("stats").update({
             type: "main"
         }, {
@@ -157,6 +160,7 @@ app.get("/stats", function(req, res) {
 // 404 route - redirect home
 app.get("*", function(req, res) {
     incrementStatByOne("requests404");
+    incrementStatByOne("homeVisits", -1);
     res.redirect("/");
 });
 
