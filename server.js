@@ -187,6 +187,15 @@ app.get("/stats",
 app.get("*", function(req, res) {
     incrementStatByOne("requests404");
     incrementStatByOne("homeVisits", -1);
+
+    if(db) {
+        db.collection("stats").update({
+            type: "main"
+        }, {
+            $addToSet: { routesOf404: req.url }
+        });
+    }
+
     res.redirect("/");
 });
 
