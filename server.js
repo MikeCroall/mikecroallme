@@ -35,15 +35,15 @@ const dburi = "mongodb://" + dbuser + ":" + dbpass + "@ds137121.mlab.com:37121/m
 app.use(passport.initialize());
 app.use(passport.session());
 passport.serializeUser(function(user, done) {
-  done(null, user);
+    done(null, user);
 });
 passport.deserializeUser(function(user, done) {
-  done(null, user);
+    done(null, user);
 });
 
 // Setup auth
 passport.use(new GoogleStrategy({
-        clientID: googleClientId,
+            clientID: googleClientId,
         clientSecret: googleClientSecret,
         callbackURL: "http://mikecroall.me/auth/google/callback"
     },
@@ -53,7 +53,9 @@ passport.use(new GoogleStrategy({
         }
         return done(null, profile);
         // return done({error: "Not authorised"}, null);
-));
+    }
+    )
+);
 
 // Connect to database and save connection
 var db;
