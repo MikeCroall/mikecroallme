@@ -158,7 +158,8 @@ app.get("/flickr", function(req, res) {
 // Admin route
 app.get("/stats",
     passport.authenticate('google', {
-        failureRedirect: '/'
+        failureRedirect: '/',
+        scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.profile.emails.read']
     }),
     function(req, res) {
         if (db) {
