@@ -1,5 +1,6 @@
 // Load modules
 var express = require("express");
+var session = require("express-session");
 var compression = require("compression");
 var mongodb = require("mongodb");
 var path = require("path");
@@ -32,6 +33,11 @@ const dbpass = process.env.dbpass;
 const dburi = "mongodb://" + dbuser + ":" + dbpass + "@ds137121.mlab.com:37121/mikecroallmestats";
 
 // Passport setup
+app.use(session({
+    secret: "TODO TODO TODO CHANGE",
+    resave: false,
+    saveUninitialized: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 passport.serializeUser(function(user, done) {
@@ -43,19 +49,13 @@ passport.deserializeUser(function(user, done) {
 
 // Setup auth
 passport.use(new GoogleStrategy({
-            clientID: googleClientId,
+        clientID: googleClientId,
         clientSecret: googleClientSecret,
         callbackURL: "http://mikecroall.me/auth/google/callback"
     },
     function(accessToken, refreshToken, profile, done) {
-        if (profile && profile.emails && profile.emails.length > 0 && profile.emails[0].value.toLowerCase() === "mikebcroall@gmail.com") {
-            console.log("CONFIRMED MIKE");
-        }
         return done(null, profile);
-        // return done({error: "Not authorised"}, null);
-    }
-    )
-);
+    }));
 
 // Connect to database and save connection
 var db;
