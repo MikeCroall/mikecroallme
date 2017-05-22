@@ -50,10 +50,9 @@ passport.use(new GoogleStrategy({
     function(accessToken, refreshToken, profile, done) {
         if (profile && profile.emails && profile.emails.length > 0 && profile.emails[0].value.toLowerCase() === "mikebcroall@gmail.com") {
             console.log("CONFIRMED MIKE");
-            return done(null, profile);
         }
-        return done({error:"Not mike"}, null);
-    }
+        return done(null, profile);
+        // return done({error: "Not authorised"}, null);
 ));
 
 // Connect to database and save connection
