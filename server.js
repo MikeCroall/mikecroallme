@@ -21,8 +21,8 @@ var mongoClient = mongodb.MongoClient;
 const currentDirectory = (process.env.PORT) ? process.cwd() : __dirname;
 
 // Setup admin auth for stats
-const adminuser = process.env.adminuser;
-const adminpass = process.env.adminpass;
+const statsUserID = process.env.requiredUserId;
+const statsUserEMAIL = process.env.requiredUserEmail;
 const googleClientId = process.env.GOOGLE_CLIENT_ID;
 const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
 
@@ -108,7 +108,7 @@ app.get("/auth/google/callback",
             const userID = req.user.id;
             const userEmail = req.user.emails[0].value;
 
-            if (userID && userEmail && userID === process.env.requiredUserId && userEmail === process.env.requiredUserEmail) {
+            if (userID && userEmail && userID === statsUserID && userEmail === statsUserEMAIL) {
                 if (db) {
                     db.collection("stats").findOne({
                         type: "main"
