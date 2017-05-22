@@ -52,6 +52,7 @@ passport.use(new GoogleStrategy({
             console.log("CONFIRMED MIKE");
             return done(null, profile);
         }
+        return done({error:"Not mike"}, null);
     }
 ));
 
@@ -115,9 +116,13 @@ app.get("/auth/google/callback",
         failureRedirect: "/"
     }),
     function(req, res) {
-        res.redirect("/stats");
+        res.redirect("/LoggedInAsMike");
     }
 );
+
+app.get("/LoggedInAsMike", function(req, res){
+    res.send("Logged in as mike");
+});
 
 // Home page
 app.get("/", function(req, res) {
