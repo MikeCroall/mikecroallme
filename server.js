@@ -38,16 +38,12 @@ passport.use(new GoogleStrategy({
         callbackURL: "http://mikecroall.me/auth/google/callback"
     },
     function(accessToken, refreshToken, profile, done) {
-        User.findOrCreate({
-            googleId: profile.id
-        }, function(err, user) {
-            console.log("Logged in from user", user);
-            if (user && user.emails && user.emails[0].toLowerCase() == "mikebcroall@gmail.com") {
-                console.log("CONFIRMED MIKE");
-                return done(null, user);
-            }
-            return done(err, user);
-        });
+        console.log("Logged in from user", profile);
+        if (profile && profile.emails && profile.emails[0].toLowerCase() == "mikebcroall@gmail.com") {
+            console.log("CONFIRMED MIKE");
+            return done(null, user);
+        }
+        return done(err, user);
     }
 ));
 
