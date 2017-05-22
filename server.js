@@ -38,8 +38,8 @@ passport.use(new GoogleStrategy({
         callbackURL: "http://mikecroall.me/auth/google/callback"
     },
     function(accessToken, refreshToken, profile, done) {
-        console.log("Logged in from user", profile);
-        if (profile && profile.emails && profile.emails[0].toLowerCase() == "mikebcroall@gmail.com") {
+        console.log("ERR", err);
+        if (profile && profile.emails && profile.emails.length > 0 && profile.emails[0].value.toLowerCase() === "mikebcroall@gmail.com") {
             console.log("CONFIRMED MIKE");
             return done(null, user);
         }
