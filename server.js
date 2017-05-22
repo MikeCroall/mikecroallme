@@ -104,24 +104,28 @@ app.get("/auth/google/callback",
         failureRedirect: "/"
     }),
     function(req, res) {
-        const userID = req.user.id;
-        const userEmail = req.user.emails[0].value;
+        if (req.user) {
+            const userID = req.user.id;
+            const userEmail = req.user.emails[0].value;
 
-        if (userID && userEmail && userID === process.env.requiredUserId && userEmail === process.env.requiredUserEmail) {
-            if (db) {
-                db.collection("stats").findOne({
-                    type: "main"
-                }, function(err, document) {
-                    if (err) {
-                        console.log("Loading stats for admin failed", err);
-                        res.redirect("/");
-                    } else {
-                        res.render("stats", {
-                            layout: false,
-                            doc: document
-                        });
-                    }
-                });
+            if (userID && userEmail && userID === process.env.requiredUserId && userEmail === process.env.requiredUserEmail) {
+                if (db) {
+                    db.collection("stats").findOne({
+                        type: "main"
+                    }, function(err, document) {
+                        if (err) {
+                            console.log("Loading stats for admin failed", err);
+                            res.redirect("/");
+                        } else {
+                            res.render("stats", {
+                                layout: false,
+                                doc: document
+                            });
+                        }
+                    });
+                } else {
+                    res.redirect("/");
+                }
             } else {
                 res.redirect("/");
             }
