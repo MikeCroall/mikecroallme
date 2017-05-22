@@ -23,6 +23,8 @@ const currentDirectory = (process.env.PORT) ? process.cwd() : __dirname;
 // Setup admin auth for stats
 const adminuser = process.env.adminuser;
 const adminpass = process.env.adminpass;
+const googleClientId = process.env.GOOGLE_CLIENT_ID;
+const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
 
 // Setup database consts
 const dbuser = process.env.dbuser;
@@ -31,8 +33,8 @@ const dburi = "mongodb://" + dbuser + ":" + dbpass + "@ds137121.mlab.com:37121/m
 
 // Setup auth
 passport.use(new GoogleStrategy({
-        clientID: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        clientID: googleClientId,
+        clientSecret: googleClientSecret,
         callbackURL: "http://mikecroall.me/auth/google/callback"
     },
     function(accessToken, refreshToken, profile, done) {
@@ -41,9 +43,10 @@ passport.use(new GoogleStrategy({
         }, function(err, user) {
             console.log("Logged in from user", user);
             if (user && user.emails && user.emails[0].toLowerCase() == "mikebcroall@gmail.com") {
+                console.log("CONFIRMED MIKE");
                 return done(null, user);
             }
-            // return done(err, user);
+            return done(err, user);
         });
     }
 ));
@@ -153,46 +156,29 @@ app.get("/flickr", function(req, res) {
 });
 
 // Admin route
-app.get("/stats", function(req, res) {
-    // Placeholder stats page if not on heroku
-    // if (!process.env.PORT) {
-    //     res.render("stats", {
-    //         layout: false,
-    // doc: {
-    //     "type": "main",
-    //     "githubClicks": 0,
-    //     "linkedinClicks": 0,
-    //     "flickrClicks": 0,
-    //     "homeVisits": 0,
-    //     "aboutVisits": 0,
-    //     "requests404": 0
-    // }
-    //     });
-    //     return;
-    // }
+app.get("/stats",
     passport.authenticate('google', {
-            failureRedirect: '/'
-        }),
-        function(req, res) {
-            if (db) {
-                db.collection("stats").findOne({
-                    type: "main"
-                }, function(err, document) {
-                    if (err) {
-                        console.log("Loading stats for admin failed", err);
-                        res.redirect("/");
-                    } else {
-                        res.render("stats", {
-                            layout: false,
-                            doc: document
-                        });
-                    }
-                });
-            } else {
-                res.redirect("/");
-            }
-        });
-});
+        failureRedirect: '/'
+    }),
+    function(req, res) {
+        if (db) {
+            db.collection("stats").findOne({
+                type: "main"
+            }, function(err, document) {
+                if (err) {
+                    console.log("Loading stats for admin failed", err);
+                    res.redirect("/");
+                } else {
+                    res.render("stats", {
+                        layout: false,
+                        doc: document
+                    });
+                }
+            });
+        } else {
+            res.redirect("/");
+        }
+    });
 
 // 404 route - redirect home
 app.get("*", function(req, res) {
