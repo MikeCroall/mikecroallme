@@ -117,7 +117,8 @@ app.get("/auth/google/callback",
     }),
     function(req, res) {
         console.log("req.user", req.user);
-        res.redirect("/LoggedInAsMike");
+        res.send("YES");
+        // TODO render stats here IF IT'S MIKE
     }
 );
 
@@ -168,7 +169,6 @@ app.get("/stats",
         scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.profile.emails.read']
     }),
     function(req, res) {
-        console.log(req);
         if (db) {
             db.collection("stats").findOne({
                 type: "main"
