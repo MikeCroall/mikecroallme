@@ -4,8 +4,11 @@ var compression = require("compression");
 var mongodb = require("mongodb");
 var path = require("path");
 var favicon = require("serve-favicon");
-var auth = require("basic-auth");
+// var auth = require("basic-auth");
 var exphbs = require("express-handlebars");
+var passport = require("passport");
+var GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
+
 
 // Options
 const globalBackgroundImage = "overview-prog-small.jpg";
@@ -25,6 +28,25 @@ const adminpass = process.env.adminpass;
 const dbuser = process.env.dbuser;
 const dbpass = process.env.dbpass;
 const dburi = "mongodb://" + dbuser + ":" + dbpass + "@ds137121.mlab.com:37121/mikecroallmestats";
+
+// Setup auth
+passport.use(new GoogleStrategy({
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: "http://mikecroall.me/auth/google/callback"
+    },
+    function(accessToken, refreshToken, profile, done) {
+        User.findOrCreate({
+            googleId: profile.id
+        }, function(err, user) {
+            console.log("Logged in from user", user);
+            if (user && user.emails && user.emails[0].toLowerCase() == "mikebcroall@gmail.com") {
+                return done(null, user);
+            }
+            // return done(err, user);
+        });
+    }
+));
 
 // Connect to database and save connection
 var db;
@@ -54,7 +76,7 @@ function incrementStatByOne(linkName, value) {
             $inc: updateField
         });
     } else {
-        console.log("No database connection, stats not updated");
+        console.log("No database connection, stat" + linkName + " not updated");
     }
 }
 
@@ -72,6 +94,23 @@ app.use(favicon(path.join(currentDirectory, "static", "favicon.ico")));
 
 // Serve static files
 app.use("/", express.static("static"));
+
+// Auth route
+app.get("/auth/google",
+    passport.authenticate("google", {
+        scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.profile.emails.read']
+    })
+);
+
+// Auth callback route
+app.get("/auth/google/callback",
+    passport.authenticate("google", {
+        failureRedirect: "/"
+    }),
+    function(req, res) {
+        res.redirect("/stats");
+    }
+);
 
 // Home page
 app.get("/", function(req, res) {
@@ -115,46 +154,44 @@ app.get("/flickr", function(req, res) {
 
 // Admin route
 app.get("/stats", function(req, res) {
-    var credentials = auth(req);
-
     // Placeholder stats page if not on heroku
     // if (!process.env.PORT) {
     //     res.render("stats", {
     //         layout: false,
-            // doc: {
-            //     "type": "main",
-            //     "githubClicks": 0,
-            //     "linkedinClicks": 0,
-            //     "flickrClicks": 0,
-            //     "homeVisits": 0,
-            //     "aboutVisits": 0,
-            //     "requests404": 0
-            // }
+    // doc: {
+    //     "type": "main",
+    //     "githubClicks": 0,
+    //     "linkedinClicks": 0,
+    //     "flickrClicks": 0,
+    //     "homeVisits": 0,
+    //     "aboutVisits": 0,
+    //     "requests404": 0
+    // }
     //     });
     //     return;
     // }
-
-    if (!adminuser || !adminpass || !credentials || credentials.name !== adminuser || credentials.pass !== adminpass) {
-        res.statusCode = 401;
-        res.setHeader("WWW-Authenticate", 'Basic realm="MikeCroallMeStats"');
-        res.end("Access denied");
-    } else if (db) {
-        db.collection("stats").findOne({
-            type: "main"
-        }, function(err, document) {
-            if (err) {
-                console.log("Loading stats for admin failed", err);
-                res.redirect("/");
-            } else {
-                res.render("stats", {
-                    layout: false,
-                    doc: document
+    passport.authenticate('google', {
+            failureRedirect: '/'
+        }),
+        function(req, res) {
+            if (db) {
+                db.collection("stats").findOne({
+                    type: "main"
+                }, function(err, document) {
+                    if (err) {
+                        console.log("Loading stats for admin failed", err);
+                        res.redirect("/");
+                    } else {
+                        res.render("stats", {
+                            layout: false,
+                            doc: document
+                        });
+                    }
                 });
+            } else {
+                res.redirect("/");
             }
         });
-    } else {
-        res.redirect("/");
-    }
 });
 
 // 404 route - redirect home
