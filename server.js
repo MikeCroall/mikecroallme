@@ -1,6 +1,5 @@
 // Load modules
 var express = require("express");
-var session = require("express-session");
 var compression = require("compression");
 var mongodb = require("mongodb");
 var path = require("path");
@@ -33,11 +32,6 @@ const dbpass = process.env.dbpass;
 const dburi = "mongodb://" + dbuser + ":" + dbpass + "@ds137121.mlab.com:37121/mikecroallmestats";
 
 // Passport setup
-app.use(session({
-    secret: "TODO TODO TODO CHANGE",
-    resave: false,
-    saveUninitialized: true
-}));
 app.use(passport.initialize());
 app.use(passport.session());
 passport.serializeUser(function(user, done) {
@@ -104,22 +98,36 @@ app.use(favicon(path.join(currentDirectory, "static", "favicon.ico")));
 // Serve static files
 app.use("/", express.static("static"));
 
-// Auth route
-app.get("/auth/google",
-    passport.authenticate("google", {
-        scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.profile.emails.read']
-    })
-);
-
 // Auth callback route
 app.get("/auth/google/callback",
     passport.authenticate("google", {
         failureRedirect: "/"
     }),
     function(req, res) {
-        console.log("req.user", req.user);
-        res.send("YES");
-        // TODO render stats here IF IT'S MIKE
+        const userID = req.user.id;
+        const userEmail = req.user.emails[0].value;
+
+        if (userID && userEmail && userID === process.env.requiredUserId && userEmail === process.env.requiredUserEmail) {
+            if (db) {
+                db.collection("stats").findOne({
+                    type: "main"
+                }, function(err, document) {
+                    if (err) {
+                        console.log("Loading stats for admin failed", err);
+                        res.redirect("/");
+                    } else {
+                        res.render("stats", {
+                            layout: false,
+                            doc: document
+                        });
+                    }
+                });
+            } else {
+                res.redirect("/");
+            }
+        } else {
+            res.redirect("/");
+        }
     }
 );
 
@@ -163,31 +171,13 @@ app.get("/flickr", function(req, res) {
     res.redirect("https://www.flickr.com/photos/mcroall");
 });
 
-// Admin route
+// Stats route
 app.get("/stats",
     passport.authenticate('google', {
         failureRedirect: '/',
         scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.profile.emails.read']
-    }),
-    function(req, res) {
-        if (db) {
-            db.collection("stats").findOne({
-                type: "main"
-            }, function(err, document) {
-                if (err) {
-                    console.log("Loading stats for admin failed", err);
-                    res.redirect("/");
-                } else {
-                    res.render("stats", {
-                        layout: false,
-                        doc: document
-                    });
-                }
-            });
-        } else {
-            res.redirect("/");
-        }
-    });
+    })
+);
 
 // 404 route - redirect home
 app.get("*", function(req, res) {
