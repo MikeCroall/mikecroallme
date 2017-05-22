@@ -31,8 +31,15 @@ const dbuser = process.env.dbuser;
 const dbpass = process.env.dbpass;
 const dburi = "mongodb://" + dbuser + ":" + dbpass + "@ds137121.mlab.com:37121/mikecroallmestats";
 
+// Passport setup
 app.use(passport.initialize());
 app.use(passport.session());
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
 
 // Setup auth
 passport.use(new GoogleStrategy({
