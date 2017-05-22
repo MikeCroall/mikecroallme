@@ -40,7 +40,7 @@ passport.use(new GoogleStrategy({
     function(accessToken, refreshToken, profile, done) {
         if (profile && profile.emails && profile.emails.length > 0 && profile.emails[0].value.toLowerCase() === "mikebcroall@gmail.com") {
             console.log("CONFIRMED MIKE");
-            return done(null, user);
+            return done(null, profile);
         }
     }
 ));
