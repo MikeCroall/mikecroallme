@@ -3,7 +3,6 @@ $(document).ready(function() {
     if(localStorage && localStorage.hasOwnProperty("useDynamicBackground")) {
         movingBackground = localStorage.useDynamicBackground == "false" ? false : true;
         $("#chkBackground").prop("checked", movingBackground);
-        console.log("Document loaded with setting", movingBackground);
     } else {
         movingBackground = $("#chkBackground").prop("checked");
     }

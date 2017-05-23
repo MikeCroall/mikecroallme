@@ -11,9 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "basic-auth": "^1.1.0",
+    "bootstrap": "^3.3.7",
     "compression": "^1.6.2",
     "express": "^4.15.2",
     "express-handlebars": "^3.0.0",
+    "jquery": "^3.2.1",
     "mongodb": "^2.2.26",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0",

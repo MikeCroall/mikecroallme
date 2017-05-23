@@ -4,11 +4,9 @@ var compression = require("compression");
 var mongodb = require("mongodb");
 var path = require("path");
 var favicon = require("serve-favicon");
-// var auth = require("basic-auth");
 var exphbs = require("express-handlebars");
 var passport = require("passport");
 var GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
-
 
 // Options
 const globalBackgroundImage = "overview-prog-small.jpg";
@@ -23,8 +21,8 @@ const currentDirectory = (process.env.PORT) ? process.cwd() : __dirname;
 // Setup admin auth for stats
 const statsUserID = process.env.requiredUserId;
 const statsUserEMAIL = process.env.requiredUserEmail;
-const googleClientId = process.env.GOOGLE_CLIENT_ID;
-const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
+const googleClientId = process.env.GOOGLE_CLIENT_ID || "here so that server can run locally (although without auth)";
+const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET || "here so that server can run locally (although without auth)";
 
 // Setup database consts
 const dbuser = process.env.dbuser;
@@ -79,7 +77,7 @@ function incrementStatByOne(linkName, value) {
             $inc: updateField
         });
     } else {
-        console.log("No database connection, stat" + linkName + " not updated");
+        console.log("No database connection, stat " + linkName + " not updated");
     }
 }
 
@@ -97,6 +95,8 @@ app.use(favicon(path.join(currentDirectory, "static", "favicon.ico")));
 
 // Serve static files
 app.use("/", express.static("static"));
+app.use("/jquery", express.static(path.join("node_modules", "jquery", "dist")));
+app.use("/bootstrap", express.static(path.join("node_modules", "bootstrap", "dist")));
 
 // Auth callback route
 app.get("/auth/google/callback",
