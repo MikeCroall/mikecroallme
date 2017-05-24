@@ -8,9 +8,6 @@ var exphbs = require("express-handlebars");
 var passport = require("passport");
 var GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 
-// Options
-const globalBackgroundImage = "overview-prog-small.jpg";
-
 // Create objects from requirements
 var app = express();
 var mongoClient = mongodb.MongoClient;
@@ -139,8 +136,7 @@ app.get("/auth/google/callback",
 app.get("/", function(req, res) {
     incrementStatByOne("homeVisits");
     res.render("index", {
-        layout: false,
-        backgroundImage: globalBackgroundImage
+        layout: false
     });
 });
 
@@ -152,8 +148,7 @@ app.get("/about", function(req, res) {
         mike: {
             ageInYears: ((new Date() - new Date(1997, 4, 8)) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(0),
             imageToShow: "me1.jpg",
-        },
-        backgroundImage: globalBackgroundImage
+        }
     });
 });
 
