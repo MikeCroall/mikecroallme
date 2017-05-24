@@ -16,18 +16,9 @@ body {
     padding-top: 70px;
 }
 
-.route-404-list {
-    color: rgba(220, 220, 220, 1.0);
-}
-
 .emphasise {
     font-size: 1.1em;
     color: rgba(255, 255, 255, 0.9);
-}
-
-.fill {
-    min-height: 100%;
-    height: 100% !important;
 }
 
 .about-p {
