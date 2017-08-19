@@ -91,11 +91,11 @@ body {
 
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?hxn3rr');
-  src:  url('fonts/icomoon.eot?hxn3rr#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?hxn3rr') format('truetype'),
-    url('fonts/icomoon.woff?hxn3rr') format('woff'),
-    url('fonts/icomoon.svg?hxn3rr#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?66qkki');
+  src:  url('fonts/icomoon.eot?66qkki#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?66qkki') format('truetype'),
+    url('fonts/icomoon.woff?66qkki') format('woff'),
+    url('fonts/icomoon.svg?66qkki#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -165,4 +165,7 @@ body {
 }
 .icon-git:before {
   content: "\eae7";
+}
+.icon-instagram:before {
+  content: "\ea92";
 }
